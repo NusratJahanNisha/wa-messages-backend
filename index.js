@@ -9,7 +9,7 @@ require('dotenv').config()
 app.use(cors());
 app.use(bodyParser.json());
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://waMessages:nusrat123@cluster0.pgiio.mongodb.net/waMessages?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.pgiio.mongodb.net/waMessages?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
 
@@ -25,8 +25,8 @@ client.connect(err => {
 
 
         // ----------sending in the whatsapp------------
-        const accountSid = 'ACb0551dcdd5fc61dff85580783ee8d0ab';
-        const authToken = 'bddc75ba6103f70021615f4a77627590';
+        const accountSid = process.env.ACCOUNT_SID;
+        const authToken = process.env.AUTH_TOKEN;
         const clientWa = require('twilio')(accountSid, authToken);
         clientWa.messages
             .create({
